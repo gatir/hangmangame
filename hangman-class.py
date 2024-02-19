@@ -1,38 +1,59 @@
 import random
-wordlist = []
-wordlist = "aliakbar", "asghar", "mehdi"
-word = ""
 
 
 class HangmanGame:
 
-    def __init__(self):
-        self.__rand_word = random.choice(wordlist)
-        self.__guess_left = 8
+    def __init__(self, wordlist):
+        self.wordlist = wordlist
+        self.word = self.word_chooser()
+        self.stars = self.starmaker()
+        self.guess_remain = 8
+        self.lstar = list(self.stars)
+
+    def word_chooser(self):
+        return random.choice(self.wordlist)
 
     def starmaker(self):
         stars = ""
-        wordlen = len(self.__rand_word)
+        wordlen = len(self.word)
         for i in range(wordlen):
             stars += "*"
         return stars
 
     def game_status(self):
-        if self.__guess_left == 0:
-            print("you loose")
+        if self.guess_remain == 0:
+            print("& you loose")
 
-        elif "*" not in lstar:
+        elif "*" not in self.lstar:
             print("you won")
             exit()
 
-    def games(self):
-        for bb in range(self.__guess_left):
+    def play(self):
+        while self.guess_remain > 0:
             x = input("guess: ")
-            indices = [i for i, char in enumerate(word) if char == x]
+            indices = [i for i, char in enumerate(self.word) if char == x]
             if indices == []:
-                self.__guess_left -= 1
-                game_status(self)
-        print(guess_remain)
-    for bb in indices:
-        lstar[bb] = x
-    print(lstar)
+                self.guess_remain -= 1
+
+                print("you have only ", self.guess_remain, " guess")
+                self.game_status()
+            else:
+
+                for bb in indices:
+                    self.lstar[bb] = x
+                print(self.lstar)
+                self.game_status()
+
+
+wordlist = ["aliakbar", "asghar", "mehdi", "ghazal", "setare"]
+game = HangmanGame(wordlist)
+while True:
+    order = input("What you want to do? \norder: ")
+
+    if order == "start":
+        game.play()
+
+    elif order == "exit":
+        break
+
+# game.play()
